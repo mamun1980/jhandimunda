@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% include 'includes/head.html' %}
+    {% block extrastyle %}{% endblock extrastyle %}
+    {% block extrahead %}{% endblock extrahead %}
+</head>
+
+<body>
+
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        {% block header %}
+            {% include 'includes/top-nav.html' %}
+        {% endblock header %}
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </main>
+    </div>
+
+    {% include 'includes/scripts.html' %}
+    {% block extra_js %}{% endblock extra_js %}
+</body>
+
+</html>

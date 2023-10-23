@@ -1,0 +1,25 @@
+.portfolio-max-width {
+  max-width: 980px;
+  margin: auto;
+}
+
+.portfolio-contact .mdl-textfield {
+  width: 100%;
+}
+
+.portfolio-contact form {
+  max-width: 550px;
+  margin: auto;
+}
+
+.lottery-card-wide.mdl-card {
+  width: 100% !important;
+}
+.lottery-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 320px;
+  background: url('/static/images/lottery3.png') center / cover;
+}
+.lottery-card-wide > .mdl-card__menu {
+  color: #fff;
+}

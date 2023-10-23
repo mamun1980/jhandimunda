@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="portfolio-max-width">
+    <div class="mdl-grid">
+        {% block grid %}
+            {% for obj in object_list %}
+                <div class="mdl-cell mdl-cell--6-col">
+                    {% include "lottery/lottery_card.html" %}
+                </div>
+            {% endfor %}
+        {% endblock grid %}
+    </div>
+</div>
+{% endblock content %}

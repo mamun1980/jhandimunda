@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="portfolio-max-width">
+    <div class="mdl-grid">
+        {% for game in games %}
+            <div class="mdl-cell mdl-cell--12-col">
+                {% include "game/game-card.html" %}
+            </div>
+        {% endfor %}
+    </div>
+    
+</div>
+
+{% endblock content %}
