@@ -5,7 +5,7 @@ from .views import HomeView
 
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='register'),
+    path('', HomeView.as_view(), name='index'),
 ]
 
 if settings.DEBUG:
