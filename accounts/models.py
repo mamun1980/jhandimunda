@@ -79,4 +79,4 @@ class JhandiUser(AbstractUser):
     objects = UserManager()
 
     USERNAME_FIELD = "phone_number"
-    REQUIRED_FIELDS = ["email"]
+    # REQUIRED_FIELDS = ["email"]
