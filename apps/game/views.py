@@ -9,8 +9,8 @@ class HomeView(JMTemplateView):
     template_name = "game/index.html"
 
 
-class AgentHomeView(JMTemplateView):
-    template_name = 'agents/home.html'
+class MyAccountView(JMTemplateView):
+    template_name = 'game/my-account.html'
 
 
 class PlayerHomeView(JMTemplateView):

@@ -8,6 +8,8 @@
 {% endblock top_nav_left %}
 
 {% block side_nav %}
+    <a class="mdl-navigation__link" href="{% url 'game:my-account' %}">My Account</a>
+    <hr>
     <a class="mdl-navigation__link" href="{% url 'wallet:transactions' %}">My Transactions</a>
     <a class="mdl-navigation__link" href="{% url 'wallet:send-coin' %}">Send Coins</a>
 {% endblock side_nav %}

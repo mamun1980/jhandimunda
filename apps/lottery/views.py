@@ -195,23 +195,27 @@ class TicketCreateView(CreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            # import pdb; pdb.set_trace()
+            import pdb; pdb.set_trace()
             data = form.data
             try:
                 ticker_number = data.get('ticker_number')
                 lottery = Lottery.objects.get(id=data.get('lottery_id'))
                 player = Player.objects.get(player_id=data.get('player_id'))
+                wallet = player.user.wallet
+                ticket_price = lottery.ticket_price
+
+                if wallet.balance < ticket_price:
+                    messages.error(request, f"আপনার একাউন্টে পর্যাপ্ত কয়েন নাই! এই লটারির টিকেটের মূল্য {lottery.ticket_price}")
+                    return HttpResponseRedirect(reverse_lazy("lottery:tickets-buy", kwargs={'lottery_id': lottery.id}))
 
                 ticket = Ticket.objects.create(
                     lottery=lottery,
                     player=player,
                     ticker_number=ticker_number
                 )
-                data = {
-                    "ticket": ticket,
-                    "lottery_id": lottery.id,
-                    "player_id": player.player_id
-                }
+                
+                wallet.balance -= lottery.ticket_price
+                wallet.save()
                 return HttpResponseRedirect("/lotteries/my-tickets/")
             except Exception as e:
                 messages.error(request, f"{ticker_number} নাম্বারটি নেয়া হয়েগেছে! দয়াকরে আবার অন্য নাম্বার চেষ্টা করুন!")
