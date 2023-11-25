@@ -1,35 +1,5 @@
-{% extends 'layouts/base.html' %}
-{% load static %}
+{% extends 'dashboard/index.html' %}
+
 
 {% block content %}
-<div class="portfolio-max-width">
-    <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--6-col">
-            <div class="lottery-card-wide mdl-card mdl-shadow--2dp">
-
-                <div class="mdl-card__media">
-                    <img src="/media/media/banner/lottery.png" width="100%" border="0" alt="">
-                </div>
-                <div class="mdl-card__supporting-text">
-                    <h2><a href="{% url 'lottery:lottery-list'  %}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">লটারী খেলুন </a></h2>
-                </div>
-                
-            </div>
-        </div>
-        <div class="mdl-cell mdl-cell--6-col">
-            <div class="lottery-card-wide mdl-card mdl-shadow--2dp">
-
-                <div class="mdl-card__media">
-                    <img src="/media/media/banner/jm.png" width="100%" border="0" alt="">
-                </div>
-                <div class="mdl-card__supporting-text">
-                    <h2><a href="" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">ঝান্ডি মুন্ডা খেলুন</a></h2>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    
-</div>
-
 {% endblock content %}

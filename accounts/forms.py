@@ -7,29 +7,38 @@ User = get_user_model()
 
 
 class RegistrationForm(UserCreationForm):
-  password1 = forms.CharField(
-      label=_("Password"),
-      widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
-  )
-  password2 = forms.CharField(
-      label=_("Confirm Password"),
-      widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}),
-  )
+    password1 = forms.CharField(
+        label=_("Password"),
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+    )
+    password2 = forms.CharField(
+        label=_("Confirm Password"),
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}),
+    )
 
-  class Meta:
-    model = User
-    fields = ('phone_number', 'email', )
+    class Meta:
+        model = User
+        fields = ('phone_number', 'email', )
 
-    widgets = {
-      'phone_number': forms.TextInput(attrs={
-          'class': 'form-control',
-          'placeholder': 'Phone Number'
-      }),
-      'email': forms.EmailInput(attrs={
-          'class': 'form-control',
-          'placeholder': 'Email'
-      })
-    }
+        widgets = {
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Phone Number'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Email'
+            })
+        }
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+            if hasattr(self, "save_m2m"):
+                self.save_m2m()
+        return user
 
 
 class LoginForm(AuthenticationForm):

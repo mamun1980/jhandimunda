@@ -9,15 +9,16 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView
 )
 
-router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+# router = routers.DefaultRouter()
+# router.register(r'users', views.UserViewSet)
+# router.register(r'groups', views.GroupViewSet)
 
 
 urlpatterns = [
     path("", include("apps.game.urls")),
-    path("api/lotteries/", include("apps.lottery.urls")),
-    path("api/", include("apps.dice.urls")),
+    path("lotteries/", include("apps.lottery.urls")),
+    path("wallets/", include("apps.wallet.urls")),
+    path("api/", include("api.urls")),
     path("accounts/", include("accounts.urls")),
     path('admin/', admin.site.urls),
 

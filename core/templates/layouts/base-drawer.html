@@ -1,0 +1,60 @@
+{% extends 'layouts/base-full.html' %}
+
+{% block body %}
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+                {% block top_nav_left %}
+                    {% include 'includes/drawer-top-nav-left.html' %}
+                {% endblock top_nav_left %}
+            <div class="mdl-layout-spacer"></div>
+            
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+                {% block top_nav_right %}
+                    {% include 'includes/drawer-top-nav-right.html' %}
+                {% endblock top_nav_right %}
+                
+            </div>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">
+            {% block side_nav_title %}
+                {{ request.user }}
+            {% endblock side_nav_title %}
+        </span>
+        <nav class="mdl-navigation">
+            {% block side_nav %}
+                {% include 'includes/drawer-side-nav.html' %}
+            {% endblock side_nav %}
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            {% block page_content %}
+                <div class="mdl-grid">
+            
+                    {% if messages %}
+                        <div class="mdl-cell--12-col">
+                            <ul class="messages alert alert-danger">
+                                {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    {% block page_head %}
+                    {% endblock page_head %}
+                    
+                    {% block content %}
+                    {% endblock content %}
+                    
+                </div>
+            {% endblock page_content %}
+        </div>
+    </main>
+</div>
+
+{% endblock body %}

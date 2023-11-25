@@ -1,5 +1,6 @@
 {% extends 'layouts/base-auth.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 
@@ -12,7 +13,7 @@
                 <span class="r"></span>
             </div>
             <div class="card">
-                <form method="post" class="card-body text-center">
+                <form method="post" class="card-body text-center" action="{% url 'register' %}">
                     {% csrf_token %}
 
                     <div class="mb-4">
@@ -27,8 +28,8 @@
                     {% endfor %}
                     <div class="form-group text-left mt-4">
                         <div class="checkbox checkbox-fill d-inline">
-                            <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-1" checked="">
-                            <label for="checkbox-fill-1" class="cr"> Save Details</label>
+                            <input type="checkbox" name="want_to_agent" id="want_to_agent">
+                            <label for="want_to_agent" class="cr">{% translate "Want to Agent?" %}</label>
                         </div>
                     </div>
                     

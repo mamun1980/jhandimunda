@@ -1,14 +1,22 @@
-from django.shortcuts import render, redirect
+# from typing import Any
+# from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from typing import Any
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.models import Group
-from rest_framework import viewsets
-from rest_framework import permissions
-from .serializers import UserSerializer, GroupSerializer
-from .forms import RegistrationForm, LoginForm, UserPasswordChangeForm, UserPasswordResetForm, UserSetPasswordForm
-from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetConfirmView, PasswordResetView
-from django.views.generic import CreateView
-from django.contrib.auth import logout
-from django.contrib.auth import get_user_model
+from django.views.generic import CreateView, TemplateView
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework import permissions
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetConfirmView, PasswordResetView
+
+from .forms import RegistrationForm, LoginForm, UserPasswordChangeForm, UserPasswordResetForm, UserSetPasswordForm
+from .serializers import UserSerializer, GroupSerializer, RegisterSerializer
+
+from apps.wallet.models import Wallet
+from apps.game.models import Player, Agent
+
 User = get_user_model()
 
 
@@ -30,16 +38,64 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
+    serializer_class = RegisterSerializer
+
+
 class UserRegistrationView(CreateView):
     template_name = 'accounts/auth-signup.html'
     form_class = RegistrationForm
     success_url = '/accounts/login/'
+
+    def post(self, request, *args, **kwargs):
+        want_to_agent = request.POST.get('want_to_agent')
+        form = self.get_form()
+        if form.is_valid():
+            try:
+                user = form.save()
+                wallet = Wallet.objects.create(user=user)
+                if want_to_agent == 'on':
+                    user.is_agent = True
+                    agent = Agent.objects.create(user=user)
+                else:
+                    user.is_player = True
+                    player = Player.objects.create(user=user)
+                user.save()
+                return HttpResponseRedirect("/accounts/login/")
+            except Exception as e:
+                print(e)
+                pass
+        
+        else:
+            return self.form_invalid(form)
 
 
 class UserLoginView(LoginView):
     template_name = 'accounts/auth-signin.html'
     form_class = LoginForm
     succes_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        # import pdb; pdb.set_trace()
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.is_staff:
+                return HttpResponseRedirect("/admin/")
+                
+            # elif user.is_agent:
+            #     return HttpResponseRedirect("/agents/")
+            # elif user.is_player:
+            #     return HttpResponseRedirect("/players/")                
+            else:
+                return HttpResponseRedirect("/")
+        else:
+            return HttpResponseRedirect("/accounts/login/")
 
 
 class UserPasswordResetView(PasswordResetView):
@@ -68,3 +124,4 @@ def profile(request):
         'segment': 'profile',
     }
     return render(request, 'accounts/profile.html', context)
+

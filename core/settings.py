@@ -1,4 +1,5 @@
 from pathlib import Path
+from decouple import config
 from datetime import timedelta
 
 
@@ -8,7 +9,17 @@ SECRET_KEY = 'django-insecure-=dv2(mvabk3&ge6-a^d2j6nb2h=&gt2b1zz1+ggeljvqa3pju=
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000'
+]
 
 
 INSTALLED_APPS = [
@@ -19,9 +30,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
+
     'rest_framework',
     'rest_framework_simplejwt',
 
+    'apps.dashboard',
     'accounts',
     'api',
     'apps.game',
@@ -37,12 +51,15 @@ LOGIN_REDIRECT_URL = "/"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 ROOT_URLCONF = 'core.urls'
 
@@ -76,6 +93,17 @@ DATABASES = {
         'NAME': BASE_DIR / 'data/db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         "ENGINE": "django.db.backends.postgresql",
+#         'NAME': config('DB_NAME', 'jm002'),
+#         'USER': config('DB_USER_NAME', 'postgres'),
+#         'PASSWORD': config('DB_USER_PASSWORD', 'qweqwe123'),
+#         'HOST': config('DB_HOST', default='localhost'),
+#         'PORT': config('DB_PORT', default=5432, cast=int)
+#     }
+# }
 
 
 # Password validation

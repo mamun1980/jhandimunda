@@ -1,5 +1,4 @@
 from django.db import models
-from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import timedelta
@@ -36,7 +35,7 @@ class Dice:
         pass
 
     
-class DrarAlgo(models.Model):
+class DrawAlgo(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self) -> str:
@@ -45,14 +44,14 @@ class DrarAlgo(models.Model):
 
 class Board(models.Model):
     title = models.CharField(max_length=100)
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    agent = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='board_agent')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE,  blank=True, null=True)
+    agent = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='board_agent')
     min_bet = models.PositiveSmallIntegerField(default=5)
     max_bet = models.PositiveSmallIntegerField(default=100)
     bet_increment = models.PositiveSmallIntegerField(default=5)
     auto_draw = models.BooleanField(default=True)
     auto_draw_cycle = models.DurationField(default=auto_draw_cycle_duration)
-    draw_algo = models.OneToOneField(DrarAlgo, blank=True, null=True, on_delete=models.CASCADE)
+    draw_algo = models.OneToOneField(DrawAlgo, blank=True, null=True, on_delete=models.CASCADE)
     betting_off_time = models.DurationField(default=betting_off_time_duration)
     live_players = models.ManyToManyField(to=Player, through='LiveBoardPlayers', related_name='live_players')
     status = models.CharField(max_length=20, choices=BOARD_STATUS, default=BOARD_STATUS[0])

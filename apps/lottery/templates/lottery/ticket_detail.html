@@ -1,23 +1,45 @@
-{% extends 'layouts/base.html' %}
+{% extends 'lottery/index.html' %}
 {% load static %}
 
-{% block breadcrumbs %}{% endblock breadcrumbs %}
 
 {% block content %}
-<h1>আপনার টিকেটের বিস্তারিত</h1>
-<div class="row">
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-header">
-                <h3>আপনার টিকেট নাম্বারঃ {{ object.ticker_number }}</h3>
+
+<div class="mdl-cell mdl-cell--12-col">
+    <div class="mdl-card mdl-shadow--2dp" style="width: 100%">
+        <div class="mdl-card__title" style="text-align: center">
+            <h3>লটারী নাম্বারঃ {{ object.lottery.id }}</h3>
+        </div>
+        <div class="mdl-card__supporting-text" style="text-align: center;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-header">
+                        আপনার টিকেট নাম্বারঃ 
+                            <h3>{{ object.ticker_number }}</h3>
+                            লটারির তারিখঃ 
+                            <h5>{{object.lottery.lottery_date}}</h5>
+                        </div>
+                        <div class="card-block">
+
+                            {% for prise in object.lottery.prises.all %}
+                                <h5>{{prise.prise_order}} পুরষ্কার : {{ prise.prise_money }} টাকা, সর্বমোট পুরষ্কারের সংখ্যা {{ prise.quantity }}টি</h5>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-block">
-                <h3>লটারী নাম্বারঃ {{ object.lottery.id }}</h3>
-                {% for prise in object.lottery.prises.all %}
-                    <h5>{{prise.prise_order}} পুরষ্কার : {{ prise.prise_money }} টাকা, সর্বমোট পুরষ্কারের সংখ্যা {{ prise.quantity }}টি</h5>
-                {% endfor %}
-            </div>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+            <a href="{% url 'lottery:tickets-buy'  object.lottery.id %}" class="mdl-button mdl-js-button mdl-button--raised
+                mdl-button--colored">
+                Buy Ticket
+            </a>
+                <a href="{% url 'lottery:my-tickets' %}" class="mdl-button mdl-js-button mdl-button--raised
+                mdl-button--colored">
+                My Tickets
+            </a>
         </div>
     </div>
 </div>
+
 {% endblock content %}

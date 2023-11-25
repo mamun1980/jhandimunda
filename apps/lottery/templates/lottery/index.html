@@ -1,18 +1,13 @@
-{% extends 'layouts/base.html' %}
-{% load static %}
+{% extends 'dashboard/index.html' %}
 
-{% block breadcrumbs %}{% endblock breadcrumbs %}
+
 
 {% block content %}
-<div class="portfolio-max-width">
-    <div class="mdl-grid">
-        {% block grid %}
-            {% for obj in object_list %}
-                <div class="mdl-cell mdl-cell--6-col">
-                    {% include "lottery/lottery_card.html" %}
-                </div>
-            {% endfor %}
-        {% endblock grid %}
+    <div class="mdl-cell--12-col" style="margin-top: 20px;">
+        {% for obj in object_list %}
+            {% include 'lottery/lottery_card.html' %}
+        {% empty %}
+            <h2>No Lottery available </h2>
+        {% endfor %}
     </div>
-</div>
 {% endblock content %}

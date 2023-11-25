@@ -41,6 +41,21 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
         return user
+    
+    def create_agent(
+        self, phone_number, email=None, password=None, **extra_fields
+    ):
+        """
+        Create and save a SuperUser with the given membership_number and password.
+        """
+
+        user = self.create_user(phone_number, email, password, **extra_fields)
+        user.is_superuser = False
+        user.is_admin = False
+        user.is_staff = False
+        user.is_agent = True
+        user.save(using=self._db)
+        return user
 
 
 class JhandiUser(AbstractUser):
@@ -51,9 +66,10 @@ class JhandiUser(AbstractUser):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     phone_number = models.CharField(_('Phone number'), validators=[phone_regex], max_length=17, unique=True)
     email = models.EmailField(_("email address"), unique=True, blank=True, null=True)
-    first_name = models.CharField(_("first name"), max_length=150)
-    last_name = models.CharField(_("last Name"), max_length=150)
+    first_name = models.CharField(_("first name"), max_length=150, blank=True, null=True)
+    last_name = models.CharField(_("last Name"), max_length=150, blank=True, null=True)
     is_agent = models.BooleanField(default=False)
+    is_player = models.BooleanField(default=False)
 
     # username = None
     # is_staff = models.BooleanField(default=False)

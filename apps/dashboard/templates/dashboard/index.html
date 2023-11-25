@@ -1,0 +1,45 @@
+{% extends 'layouts/base-drawer.html' %}
+
+{% block top_nav_left %}
+{% if request.user.is_player %}
+    <a class="mdl-navigation__link" href="{% url 'lottery:lottery-list' %}">Lottery</a>
+    <a class="mdl-navigation__link" href="{% url 'lottery:my-tickets' %}">My Tickets</a>
+{% endif %}
+{% endblock top_nav_left %}
+
+{% block side_nav %}
+    <a class="mdl-navigation__link" href="{% url 'wallet:transactions' %}">My Transactions</a>
+    <a class="mdl-navigation__link" href="{% url 'wallet:send-coin' %}">Send Coins</a>
+{% endblock side_nav %}
+
+{% block side_nav_title %}
+    <a class="mdl-navigation__link" href="/">{{ request.user }}</a>
+{% endblock side_nav_title %}
+
+{% block page_head %}
+    <div class="mdl-cell--6-col-desktop mdl-cell--12-col-mobile">
+        <table class="mdl-data-table  mdl-shadow--2dp" style="width: 100%;">
+            <tr class="bg-primary-subtle">
+                <th>Your balance</th>
+                <th>Wallet No</th>
+                <th>Account Type</th>
+                
+            </tr>
+            <tr>
+                <td><b>{{wallet.balance}}</b></td>
+                <td>{{ wallet.wallet_id }}</td>
+                <td>
+                    {% if wallet.user.is_agent %}
+                        Agent
+                    {% else %}
+                        Player
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="mdl-cell--6-col-desktop"></div>
+{% endblock page_head %}
+
+{% block content %}
+{% endblock content %}

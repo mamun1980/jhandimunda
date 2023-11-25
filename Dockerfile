@@ -1,29 +1,40 @@
-# pull official base image
-FROM python:3.11.4-slim-buster
+# Use a slim version of the Python image
+FROM python:3.12-slim
 
-# set work directory
-WORKDIR /usr/src/app
-
-# set environment variables
+# Set environment variables for Python
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install system dependencies
-RUN apt-get update && apt-get install -y netcat
+# Create and set the working directory
+WORKDIR /app
 
-# install dependencies
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    libpq-dev \
+    nginx
 
-# copy entrypoint.sh
-# COPY ./entrypoint.sh .
-# RUN sed -i 's/\r$//g' /usr/src/app/entrypoint.sh
-# RUN chmod +x /usr/src/app/entrypoint.sh
+# Install Python dependencies
+COPY requirements.txt .
 
-# copy project
-COPY . .
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
-# run entrypoint.sh
-# ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
-CMD [ "python", "manage.py", "runserver" ]
+# Copy the Django app code into the container
+COPY . /app
+
+# Configure Nginx
+COPY nginx.default /etc/nginx/sites-available/default
+
+# Copy the entrypoint script
+COPY entrypoint.sh /app/
+
+# Grant execute permissions to the entrypoint script
+RUN chmod +x /app/entrypoint.sh
+
+# Expose the port that Gunicorn will listen on
+EXPOSE 8000
+
+# Set the entrypoint script as the container entrypoint
+ENTRYPOINT ["/app/entrypoint.sh"]

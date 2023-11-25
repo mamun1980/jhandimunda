@@ -1,4 +1,5 @@
 from django.db import models
+import time
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -17,7 +18,26 @@ class Game(models.Model):
 
 
 class Player(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    player_id = models.CharField(max_length=10, primary_key=True, editable=False)
+    user = models.OneToOneField(User, on_delete=models.RESTRICT, blank=False, null=False)
 
     def __str__(self) -> str:
-        return self.user.phone_number
+        return self.player_id
+    
+    def save(self, *args, **kwargs):
+        if not self.player_id:
+            self.player_id =  int(time.time())
+        super().save(*args, **kwargs)
+
+
+class Agent(models.Model):
+    agent_id = models.CharField(max_length=10, primary_key=True, editable=False)
+    user = models.OneToOneField(User, on_delete=models.RESTRICT, blank=False, null=False)
+
+    def __str__(self) -> str:
+        return self.agent_id
+    
+    def save(self, *args, **kwargs):
+        if not self.agent_id:
+            self.agent_id = int(time.time())
+        super().save(*args, **kwargs)

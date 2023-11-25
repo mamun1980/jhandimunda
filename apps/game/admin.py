@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Game, Player
+from .models import Game, Player, Agent
 from .forms import GameForm
 
 
@@ -16,4 +16,9 @@ class GameAdmin(admin.ModelAdmin):
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ['user']
+    list_display = ['player_id', 'user']
+
+
+@admin.register(Agent)
+class AgentAdmin(admin.ModelAdmin):
+    list_display = ['agent_id', 'user']

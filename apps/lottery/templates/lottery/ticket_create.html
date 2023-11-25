@@ -1,42 +1,36 @@
 {% extends 'lottery/index.html' %}
 {% load static %}
 
-{% block breadcrumbs %}{% endblock breadcrumbs %}
 
-{% block grid %}
-<style>
-.demo-card-wide.mdl-card {
-  width: 100%;
-}
-.demo-card-wide > .mdl-card__title {
-  color: #fff;
-  height: 176px;
-  background: url('../assets/demos/welcome_card.jpg') center / cover;
-}
-.demo-card-wide > .mdl-card__menu {
-  color: #fff;
-}
-</style>
-<div class="mdl-cell mdl-cell--6-col">
-    <div class="demo-card-wide mdl-card mdl-shadow--2dp">
-        <div class="mdl-card__title">
-            <h2 class="mdl-card__title-text">Buy Ticket</h2>
+{% block content %}
+<br>
+<div class="mdl-cell--6-col" style="margin-top: 20px;">
+    <form method="post" action="{% url 'lottery:tickets-buy' lottery.id %}">{% csrf_token %}
+        <div class="mdl-card mdl-shadow--2dp" style="width: 100%; text-align: center;">
+            <div class="mdl-card__title" >
+                <h4>
+                    লটারি নংঃ {{ lottery.id }}<br>
+                    লটারি তারিখঃ {{lottery.lottery_date}}<br>
+                  </h4>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <h4>আপনার পছন্দের ৬ টি সংখ্যা লিখুন </h4>
+
+                    <input type="hidden" name="lottery_id" value="{{ lottery.id }}">
+                    <input type="hidden" name="player_id" value="{{ player_id }}">
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <input name="ticker_number" class="mdl-textfield__input" type="text" pattern="[0-9]\d{5}$" id="sample2">
+                        <label class="mdl-textfield__label" for="sample2">Number...</label>
+                        <span class="mdl-textfield__error">Input is not a number!</span>
+                    </div>
+
+            </div>
+            <div class="mdl-card__actions mdl-card--border" style="align-center">
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                  Buy a Ticket
+                </button>
+            </div>
         </div>
-        <div class="mdl-card__supporting-text">
-            <form method="post" action="">{% csrf_token %}
-                <input type="hidden" name="lottery_id" value="{{ lottery_id}}">
-                <div class="mdl-textfield mdl-js-textfield">
-    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample2">
-    <label class="mdl-textfield__label" for="sample2">Number...</label>
-    <span class="mdl-textfield__error">Input is not a number!</span>
-  </div>
-            </form>
-        </div>
-        <div class="mdl-card__actions mdl-card--border">
-            <a href="" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-              Buy a Ticket
-            </a>
-        </div>
-    </div>
+    </form>
 </div>
-{% endblock grid %}
+{% endblock content %}

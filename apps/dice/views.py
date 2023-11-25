@@ -13,15 +13,17 @@ from .serializers import GameSerializer, LobbySerializer, BoardSerializer, Board
 class LobbyApiView(generics.ListAPIView):
     queryset = Board.objects.filter(status='live')
     serializer_class = LobbySerializer
+    permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset, many=True)
         user = self.request.user
         player = {
-            "user_id": user.player.id,
-            "username": user.username, 
-            "balance": 100
+            "player_id": user.player.id,
+            "wallet_id": user.wallet.wallet_id, 
+            "balance": user.wallet.balance,
+            "wallet_status": user.wallet.status
         }
         data = {
             "profile": player,

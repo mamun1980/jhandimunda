@@ -1,12 +1,12 @@
 from django.contrib import admin
 from .models import (
-    Board, LiveBoardPlayers, JhandiDraw, DrarAlgo,
+    Board, LiveBoardPlayers, JhandiDraw, DrawAlgo,
     DicePlayerBettingCoins, PlayerDiceBettingResult, BoardLiveData
 )
 
 
 
-@admin.register(DrarAlgo)
+@admin.register(DrawAlgo)
 class DrarAlgoAdmin(admin.ModelAdmin):
     list_display = ['name']
 
