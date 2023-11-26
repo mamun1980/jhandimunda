@@ -1,27 +1,46 @@
-<!-- Wide card with share menu button -->
+{% load static %}
+<style>
+  .mdl-button {
+    padding-left: 8px !important;
+    padding-right: 8px;
+  }
+  .demo-card-wide.mdl-card {
+    width: 100%;
+  }
+  .demo-card-wide > .mdl-card__title {
+    color: #fff;
+  }
+  .demo-card-wide > .mdl-card__menu {
+    color: #fff;
+  }
+  </style>
+  
+  <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title">
+      
+    </div>
+    <div class="mdl-card__media">
+      <img src="{% static 'images/lottery.png' %}"  style="width: 100%;" />
+    </div>
+    <div class="mdl-card__supporting-text">
+      <h2 class="mdl-card__title-text">লটারির তারিখ: {{ obj.lottery_date }}</h2>
 
-<div class="mdl-card mdl-shadow--2dp" style="width: 100%">
-  <div class="mdl-card__title">
-    <h5>{{obj.get_short_description}}</h5>
+      <h4>{{obj.get_short_description}}</h4>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a href="{% url 'lottery:lottery-detail' obj.id %}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" style="padding: auto 8px;">
+        View Detail
+      </a>
+      <a href="{% url 'lottery:tickets-buy' obj.id %}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary" style="padding: auto 8px;">
+        Buy Ticket
+      </a>
+      </a>
+      <a href="{% url 'lottery:my-tickets' %}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" style="padding: auto 8px;">
+        My Tickets
+      </a>
+    </div>
+    <div class="mdl-card__menu">
+      
+      
+    </div>
   </div>
-  <div class="mdl-card__supporting-text">
-    <h5>লটারির তারিখ: {{ obj.lottery_date }}</h5>
-
-  </div>
-  <div class="mdl-card__actions mdl-card--border">
-    <a href="{% url 'lottery:lottery-detail' obj.id %}" class="mdl-button mdl-js-button mdl-button--raised
-      mdl-button--colored">
-      View Detail
-    </a>
-    <a href="{% url 'lottery:tickets-buy' obj.id %}" class="mdl-button mdl-js-button mdl-button--raised
-      mdl-button--colored">
-      Buy Ticket
-    </a>
-    </a>
-      <a href="{% url 'lottery:my-tickets' %}" class="mdl-button mdl-js-button mdl-button--raised
-      mdl-button--colored">
-      My Tickets
-    </a>
-  </div>
-</div>
-

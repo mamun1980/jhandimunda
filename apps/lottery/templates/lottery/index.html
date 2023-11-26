@@ -3,7 +3,7 @@
 
 
 {% block content %}
-    <div class="mdl-cell--12-col" style="margin-top: 20px;">
+    <div class="mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--12-col-mobile" style="margin-top: 20px;">
         {% for obj in object_list %}
             {% include 'lottery/lottery_card.html' %}
         {% empty %}

@@ -1,0 +1,35 @@
+{% extends 'dashboard/index.html' %}
+
+
+
+{% block content %}
+    <div class="mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--12-col-mobile" style="margin-top: 20px;">
+        <table class="mdl-data-table mdl-shadow--2dp" style="width: 100%">
+            <thead class="bg-primary-subtle">
+                <tr>
+                    <td>লটারি নাম্বার</td>
+                    <td>বিজয়ী নম্বর</td>
+                    <td>পুরস্কার নং</td>
+                    <td>উপহার স্বরূপ</td>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in object_list %}
+                    <tr>
+                        <td>{{obj.lottery.id}}</td>
+                        <td>{{obj.winning_number}}</td>
+                        <td>{{obj.prize.prize_order}}</td>
+                        <td>{{obj.prize.prize_money}}</td>
+                    </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">Wait..!</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+{% endblock content %}

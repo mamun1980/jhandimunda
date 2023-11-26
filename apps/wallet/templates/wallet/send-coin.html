@@ -2,7 +2,7 @@
 
 
 {% block content %}
-        <div class="mdl-cell--12-col-desktop mdl-cell-12-col-mobile">
+        <div class="mdl-cell--6-col-desktop mdl-cell-12-col-mobile">
             <div class="mdl-card mdl-shadow--2dp" style="width: 100%; margin-top: 40px;">
             <form method="POST" action="{% url 'wallet:send-coin' %}">
                 {% csrf_token %}

@@ -55,6 +55,7 @@ class Ticket(models.Model):
     ticker_number = models.PositiveIntegerField(default=0)
     purchase_date = models.DateTimeField(auto_now_add=True)
     expired = models.BooleanField(default=False, editable=False)
+    is_winner = models.BooleanField(default=False, editable=False)
 
     # def save(self, *args, **kwargs):
     #     six_digit_random_number = random.randint(100000, 999999)
@@ -69,6 +70,7 @@ class Ticket(models.Model):
 
 
 class LotteryWinners(models.Model):
+    lottery = models.ForeignKey(Lottery, on_delete=models.CASCADE, related_name='winners')
     prize = models.ForeignKey(LotteryPrizes, on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, blank=True, null=True)
     player = models.ForeignKey(Player, on_delete=models.CASCADE, blank=True, null=True)
@@ -81,7 +83,3 @@ class LotteryWinners(models.Model):
     @property
     def prize_order(self):
         return self.prize.prize_order
-    
-    @property
-    def lottery(self):
-        return self.prize.lottery

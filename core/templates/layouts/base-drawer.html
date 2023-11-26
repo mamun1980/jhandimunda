@@ -1,4 +1,9 @@
 {% extends 'layouts/base-full.html' %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock extrastyle %}
 
 {% block body %}
 

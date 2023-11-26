@@ -7,22 +7,21 @@
 <div class="mdl-cell--6-col" style="margin-top: 20px;">
     <form method="post" action="{% url 'lottery:tickets-buy' lottery.id %}">{% csrf_token %}
         <div class="mdl-card mdl-shadow--2dp" style="width: 100%; text-align: center;">
-            <div class="mdl-card__title" >
-                <h4>
-                    লটারি নংঃ {{ lottery.id }}<br>
-                    লটারি তারিখঃ {{lottery.lottery_date}}<br>
-                  </h4>
+            <div style="width: 100%; text-align: center;">
+                <h4>লটারি নং - {{ lottery.id }}</h4>
+                <br />
+                <h4>লটারি তারিখঃ {{lottery.lottery_date}}</h4>
             </div>
             <div class="mdl-card__supporting-text">
-                <h4>আপনার পছন্দের ৬ টি সংখ্যা লিখুন </h4>
+                <h4>আপনার পছন্দের ৬ টি সংখ্যা লিখুন</h4>
 
-                    <input type="hidden" name="lottery_id" value="{{ lottery.id }}">
-                    <input type="hidden" name="player_id" value="{{ player_id }}">
-                    <div class="mdl-textfield mdl-js-textfield">
-                        <input name="ticker_number" class="mdl-textfield__input" type="text" pattern="[0-9]\d{5}$" id="sample2">
-                        <label class="mdl-textfield__label" for="sample2">Number...</label>
-                        <span class="mdl-textfield__error">Input is not a number!</span>
-                    </div>
+                <input type="hidden" name="lottery_id" value="{{ lottery.id }}">
+                <input type="hidden" name="player_id" value="{{ player_id }}">
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input name="ticker_number" class="mdl-textfield__input" type="text" pattern="[0-9]\d{5}$" required>
+                    <label class="mdl-textfield__label" for="sample2">Number...</label>
+                    <span class="mdl-textfield__error">Input is not a number!</span>
+                </div>
 
             </div>
             <div class="mdl-card__actions mdl-card--border" style="align-center">

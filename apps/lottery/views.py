@@ -14,7 +14,7 @@ from django.contrib import messages
 from apps.dashboard.views import JMTemplateView
 from apps.game.models import Player
 from apps.wallet.models import Wallet
-from .models import Lottery, Ticket
+from .models import Lottery, Ticket, LotteryWinners
 from .serializers import LotterySerializer, TicketSerializer
 from .forms import TicketForm
 
@@ -140,7 +140,7 @@ class MyTicketListView(ListView):
     def get_queryset(self):
         user = self.request.user
         player = user.player
-        qs = Ticket.objects.filter(player=player, expired=False)
+        qs = Ticket.objects.filter(player=player, lottery__status='live').order_by('-purchase_date')
         return qs
 
 
@@ -151,7 +151,7 @@ class TicketListView(ListView):
         model = Ticket
 
     def get_queryset(self):
-        qs = Ticket.objects.all()
+        qs = Ticket.objects.all().order_by('-purchase_date')
         return qs
 
 
@@ -195,7 +195,6 @@ class TicketCreateView(CreateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            import pdb; pdb.set_trace()
             data = form.data
             try:
                 ticker_number = data.get('ticker_number')
@@ -222,4 +221,26 @@ class TicketCreateView(CreateView):
                 return HttpResponseRedirect(reverse_lazy("lottery:tickets-buy", kwargs={'lottery_id': lottery.id}))
         else:
             return self.form_invalid(form)
+
+
+class LotteryWinnersList(ListView):
+    template_name = "lottery/lottery_winners_list.html"
+
+    class Meta:
+        model = LotteryWinners
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        wallet = Wallet.objects.get(user=user)
+        data = {
+            "wallet": wallet
+        }
+        context.update(data)
+        return context
+
+    def get_queryset(self):
+        qs = LotteryWinners.objects.all()
+        return qs
+
 

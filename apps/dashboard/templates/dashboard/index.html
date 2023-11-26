@@ -3,7 +3,7 @@
 {% block top_nav_left %}
 {% if request.user.is_player %}
     <a class="mdl-navigation__link" href="{% url 'lottery:lottery-list' %}">Lottery</a>
-    <a class="mdl-navigation__link" href="{% url 'lottery:my-tickets' %}">My Tickets</a>
+    <a class="mdl-navigation__link" href="">Dices</a>
 {% endif %}
 {% endblock top_nav_left %}
 
@@ -19,6 +19,14 @@
 {% endblock side_nav_title %}
 
 {% block page_head %}
+    {% if request.user.is_player %}
+    <div class="mdl-cell--12-col" style="margin: 20px auto;">
+        <a class="mdl-button mdl-button--colored" href="{% url 'lottery:my-tickets' %}">My Tickets</a>
+        <a class="mdl-button mdl-button--colored" href="{% url 'lottery:my-results' %}">My Results</a>
+        <a class="mdl-button mdl-button--colored" href="{% url 'lottery:all-results' %}">All Results</a>
+    </div>
+    {% endif %}
+
     <div class="mdl-cell--6-col-desktop mdl-cell--12-col-mobile">
         <table class="mdl-data-table  mdl-shadow--2dp" style="width: 100%;">
             <tr class="bg-primary-subtle">

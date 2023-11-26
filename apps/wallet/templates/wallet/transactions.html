@@ -22,6 +22,11 @@
                             <td>{{ trans.to_wallet.wallet_id }}</td>
                             <td>{{ trans.amount }}</td>
                         </tr>
+                    {% empty %}
+                    <tr style="text-align: center;">
+                        
+                        <td colspan="3" style="text-align: center;">কোন লেনদেন নাই</td>
+                    </tr>
                     {% endfor %}
                 
                 </tbody>
@@ -44,6 +49,11 @@
                             <td>{{ trans.to_wallet.wallet_id }}</td>
                             <td>{{ trans.amount }}</td>
                         </tr>
+                    {% empty %}
+                    <tr style="text-align: center;">
+                        
+                        <td colspan="3" style="text-align: center;">কোন লেনদেন নাই</td>
+                    </tr>
                     {% endfor %}
                 
                 </tbody>
