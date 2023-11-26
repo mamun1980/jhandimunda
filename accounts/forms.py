@@ -18,17 +18,17 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('phone_number', 'email', )
+        fields = ('phone_number', )
 
         widgets = {
             'phone_number': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Phone Number'
             }),
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Email'
-            })
+            # 'email': forms.EmailInput(attrs={
+            #     'class': 'form-control',
+            #     'placeholder': 'Email'
+            # })
         }
     
     def save(self, commit=True):
