@@ -77,12 +77,14 @@ class BoardViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['post'])
     def refresh(self, request, pk):
+        import pdb; pdb.set_trace()
         req_data = request.data
         player_id = req_data.get('player_id')
         balance = req_data.get('balance')
         live_data = req_data.get('live_board_data')
         
-        player = Player.objects.get(id=player_id)
+        player = Player.objects.get(player_id=player_id)
+        wallet = player.user.wallet
         board = Board.objects.get(pk=pk)
         boardlivedata = board.boardlivedata
         try:
