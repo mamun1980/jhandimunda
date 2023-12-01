@@ -20,7 +20,7 @@ class LobbyApiView(generics.ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         user = self.request.user
         player = {
-            "player_id": user.player.id,
+            "player_id": user.player.player_id,
             "wallet_id": user.wallet.wallet_id, 
             "balance": user.wallet.balance,
             "wallet_status": user.wallet.status
@@ -77,7 +77,7 @@ class BoardViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['post'])
     def refresh(self, request, pk):
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         req_data = request.data
         player_id = req_data.get('player_id')
         balance = req_data.get('balance')
